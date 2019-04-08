@@ -1,4 +1,3 @@
-/public/assets/*
 /vendor/
 /logs/*
 !/logs/README.md
