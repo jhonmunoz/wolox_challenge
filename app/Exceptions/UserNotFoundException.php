@@ -2,4 +2,6 @@
 
 namespace App\Exceptions;
 
-class UserNotFoundException extends \RuntimeException {}
+class UserNotFoundException extends \RuntimeException
+{
+}

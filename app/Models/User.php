@@ -2,68 +2,68 @@
 
 namespace App\Models;
 
-use App\Services\DatabaseService as DB;
 use App\Exceptions\UserNotFoundException;
+use Slim\Container;
 
 class User
 {
-	private $db;
+    private $db;
 
-	public function __construct()
-	{
-		$this->db = DB::getInstance();
-	}
+    public function __construct(Container $container)
+    {
+        $this->db = $container->get('database');
+    }
 
-	public function getUser(int $id): array
-	{
-		$query = "SELECT *
+    public function getUser(int $id): array
+    {
+        $query = "SELECT *
 			  	  FROM wolox_challenge.user U
 			      WHERE U.id = {$id} LIMIT 1";
-		$result = $this->db->query($query);
+        $result = $this->db->query($query);
 
-		if (! $result->rowCount()) {
-			throw new UserNotFoundException();
-		}
+        if (! $result->rowCount()) {
+            throw new UserNotFoundException();
+        }
 
-		return $result->fetch();
-	}
+        return $result->fetch();
+    }
 
-	public function deleteUser(int $id)
-	{
-		$query = "DELETE FROM wolox_challenge.user
+    public function deleteUser(int $id)
+    {
+        $query = "DELETE FROM wolox_challenge.user
 				  WHERE id = :id";
-		$result = $this->db->prepare($query);
-		$result->bindParam(':id', $id);
-		if (! $result->execute()) {
-			throw new Exception();
-		}
-	}
+        $result = $this->db->prepare($query);
+        $result->bindParam(':id', $id);
+        if (! $result->execute()) {
+            throw new Exception();
+        }
+    }
 
-	public function editUser(array $params)
-	{
-		$query = "UPDATE wolox_challenge.user
+    public function editUser(array $params)
+    {
+        $query = "UPDATE wolox_challenge.user
 				  SET name = :name, email = :email, image = :image
 				  WHERE id = {$params['id']}";
 
-		$result = $this->db->prepare($query);
-		$result->bindParam(':name', $params['name']);
-		$result->bindParam(':email', $params['email']);
-		$result->bindParam(':image', $params['image']);
-		if (! $result->execute()) {
-			throw new Exception();
-		}
-	}
+        $result = $this->db->prepare($query);
+        $result->bindParam(':name', $params['name']);
+        $result->bindParam(':email', $params['email']);
+        $result->bindParam(':image', $params['image']);
+        if (! $result->execute()) {
+            throw new Exception();
+        }
+    }
 
-	public function addImage (array $params)
-	{
-		$query = "UPDATE wolox_challenge.user
+    public function addImage(array $params)
+    {
+        $query = "UPDATE wolox_challenge.user
 				  SET image = :image
 				  WHERE id = {$params['id']}";
 
-		$result = $this->db->prepare($query);
-		$result->bindParam(':image', $params['image']);
-		if (! $result->execute()) {
-			throw new Exception();
-		}
-	}
+        $result = $this->db->prepare($query);
+        $result->bindParam(':image', $params['image']);
+        if (! $result->execute()) {
+            throw new Exception();
+        }
+    }
 }
