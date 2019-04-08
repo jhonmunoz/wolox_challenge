@@ -53,4 +53,17 @@ class User
 			throw new Exception();
 		}
 	}
+
+	public function addImage (array $params)
+	{
+		$query = "UPDATE wolox_challenge.user
+				  SET image = :image
+				  WHERE id = {$params['id']}";
+
+		$result = $this->db->prepare($query);
+		$result->bindParam(':image', $params['image']);
+		if (! $result->execute()) {
+			throw new Exception();
+		}
+	}
 }
