@@ -1,27 +1,52 @@
-# Slim Framework 3 Skeleton Application
+# Descarga del proyecto
+Para poder descargar el proyecto, usar el comando git clone en el directorio en le que se quiere descargar el mismo
+```sh
+git clone https://github.com/LucaPascarelli/wolox_challenge.git
+```
 
-Use this skeleton application to quickly setup and start working on a new Slim Framework 3 application. This application uses the latest Slim 3 with the PHP-View template renderer. It also uses the Monolog logger.
 
-This skeleton application was built for Composer. This makes setting up a new Slim Framework application quick and easy.
+# Composer
+Para poder instalar las dependecias del proyecto, se debe utilizar [Composer]
+Debemos estar en el directorio del proyecto y ejecutar el siguiente comando:
+```sh
+composer install
+```
 
-## Install the Application
+# Xampp
+Para poder usar PHP y MySQL debemos descargar e instalar la herramienta [Xampp]
 
-Run this command from the directory in which you want to install your new Slim Framework application.
+[![N|Solid](http://www.mclibre.org/consultar/php/img/xampp/xampp-control-panel-04.png)]
 
-    php composer.phar create-project slim/slim-skeleton [my-app-name]
+A tener en cuenta:
+- Solo se debe instalar MySQL y PHP
+- Lo unico que debemos ejecutar (presionando el boton Start) es MySQL
 
-Replace `[my-app-name]` with the desired directory name for your new application. You'll want to:
+# Base de Datos
+Se puede utilizar cualquier editor de base de datos.
+Se debe crear la base de datos wolox_challenge y ejecutar la siguiente query para generar la tabla:
 
-* Point your virtual host document root to your new application's `public/` directory.
-* Ensure `logs/` is web writeable.
+```sql 
+create table user 
+ (
+    id    int auto_increment primary key,
+    name  varchar(180) null,
+    email varchar(180) null,
+    image varchar(180) null
+);
+```
 
-To run the application in development, you can run these commands 
+# Postman
+Para poder testear la API, se debe utilizar la herramienta [Postman]
+La documentacion (con ejemplos) se puede consultar [aqui]
 
-	cd [my-app-name]
-	php composer.phar start
+# Ejecutar el server
+Para poder ejecutar el server (para que, de este modo nuestra API empiece a correr), se debe ejecutar el siguiente comando sobre el directorio del proyecto:
+```sh
+php -S 127.0.0.1:8080
+```
 
-Run this command in the application directory to run the test suite
 
-	php composer.phar test
-
-That's it! Now go build something cool.
+[Composer]: <https://getcomposer.org/>
+[Xampp]: <https://www.apachefriends.org/es/index.html>
+[Postman]: <https://www.getpostman.com/>
+[aqui]: <https://learning.getpostman.com/docs/postman/collections/examples/>
