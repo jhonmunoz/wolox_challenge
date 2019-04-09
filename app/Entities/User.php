@@ -70,7 +70,9 @@ class User
         if (is_null($this->getImage())) {
             return null;
         }
+        $host = $_SERVER['SERVER_PORT'] === '8080' ? 'http://' : 'https://';
 
-        return "{$_SERVER['HTTP_HOST']}/public/assets/images/users/{$this->getImage()}";
+
+        return "{$host}{$_SERVER['HTTP_HOST']}/public/assets/images/users/{$this->getImage()}";
     }
 }

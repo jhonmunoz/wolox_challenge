@@ -5,6 +5,7 @@
         </testsuite>
     </testsuites>
     <php>
-    	<server name="HTTP_HOST" value="http://localhost:8080"/>
+    	<server name="SERVER_PORT" value="8080"/>
+    	<server name="HTTP_HOST" value="localhost:8080"/>
     </php>
 </phpunit>
