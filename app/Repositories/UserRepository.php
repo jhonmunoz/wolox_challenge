@@ -1,11 +1,12 @@
 <?php
 
-namespace App\Models;
+namespace App\Repositories;
 
+use App\Entities\User;
 use App\Exceptions\UserNotFoundException;
 use Slim\Container;
 
-class User
+class UserRepository
 {
     private $db;
 
@@ -14,24 +15,24 @@ class User
         $this->db = $container->get('database');
     }
 
-    public function getUser(int $id): array
+    public function getUserById(int $id): User
     {
         $query = "SELECT *
-			  	  FROM wolox_challenge.user U
-			      WHERE U.id = {$id} LIMIT 1";
+                   FROM wolox_challenge.user U
+                  WHERE U.id = {$id} LIMIT 1";
         $result = $this->db->query($query);
 
         if (! $result->rowCount()) {
             throw new UserNotFoundException();
         }
-
-        return $result->fetch();
+        
+        return new User($result->fetch());
     }
 
-    public function deleteUser(int $id)
+    public function deleteUserById(int $id)
     {
         $query = "DELETE FROM wolox_challenge.user
-				  WHERE id = :id";
+                  WHERE id = :id";
         $result = $this->db->prepare($query);
         $result->bindParam(':id', $id);
         if (! $result->execute()) {
@@ -42,8 +43,8 @@ class User
     public function editUser(array $params)
     {
         $query = "UPDATE wolox_challenge.user
-				  SET name = :name, email = :email, image = :image
-				  WHERE id = {$params['id']}";
+                  SET name = :name, email = :email, image = :image
+                  WHERE id = {$params['id']}";
 
         $result = $this->db->prepare($query);
         $result->bindParam(':name', $params['name']);
@@ -57,8 +58,8 @@ class User
     public function addImage(array $params)
     {
         $query = "UPDATE wolox_challenge.user
-				  SET image = :image
-				  WHERE id = {$params['id']}";
+                  SET image = :image
+                  WHERE id = {$params['id']}";
 
         $result = $this->db->prepare($query);
         $result->bindParam(':image', $params['image']);

@@ -1,4 +1,3 @@
-/public/assets/images/users/*
 /vendor/
 /logs/*
 !/logs/README.md
