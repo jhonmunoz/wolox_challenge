@@ -33,7 +33,7 @@ Status: 200 OK
     "id": "1",
     "name": "Luca",
     "email": "lpascarelli@gmail.com",
-    "image": 85dcddc38e405fbf.png
+    "image": "http://localhost:8080/public/assets/images/users/80099ba3dfc8cc67.png"
 }
 ```
 ```sh

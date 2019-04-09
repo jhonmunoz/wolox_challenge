@@ -4,4 +4,8 @@
             <directory>tests</directory>
         </testsuite>
     </testsuites>
+    <php>
+    	<server name="SERVER_PORT" value="8080"/>
+    	<server name="HTTP_HOST" value="localhost:8080"/>
+    </php>
 </phpunit>

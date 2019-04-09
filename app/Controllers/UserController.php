@@ -3,7 +3,7 @@
 namespace App\Controllers;
 
 use App\Exceptions\UserNotFoundException;
-use App\Models\User;
+use App\Repositories\UserRepository;
 use App\Services\StorageService;
 use Slim\Container;
 use Slim\Http\Request;
@@ -11,7 +11,7 @@ use Slim\Http\Response;
 
 class UserController
 {
-    private $user;
+    private $userRepository;
     private $container;
     private $logger;
     private $storage;
@@ -19,7 +19,7 @@ class UserController
     public function __construct(Container $container)
     {
         $this->container = $container;
-        $this->user = new User($this->container);
+        $this->userRepository = new UserRepository($this->container);
         $this->storage = new StorageService;
         $this->logger = $this->container->get('logger');
     }
@@ -27,19 +27,19 @@ class UserController
     public function show(Request $request, Response $response, array $args)
     {
         try {
-            $user = $this->user->getUser($args['id']);
+            $user = $this->userRepository->getUserById($args['id']);
             $this->logger->info('Get User', [
-                'id' => $user['id'],
-                'name' => $user['name'],
-                'email' => $user['email'],
-                'image' => $user['image'],
+                'id' => $user->getId(),
+                'name' => $user->getName(),
+                'email' => $user->getEmail(),
+                'image' => $user->getImageUrl(),
             ]);
 
             return $response->withStatus(200)->withJson([
-                'id' => $user['id'],
-                'name' => $user['name'],
-                'email' => $user['email'],
-                'image' => $user['image'],
+                'id' => $user->getId(),
+                'name' => $user->getName(),
+                'email' => $user->getEmail(),
+                'image' => $user->getImageUrl(),
             ]);
         } catch (UserNotFoundException $e) {
             $this->logger->info('UserNotFoundException', ['status' => '404', 'message' => 'Not Found']);
@@ -55,7 +55,7 @@ class UserController
     public function delete(Request $request, Response $response, array $args)
     {
         try {
-            $this->user->deleteUser($args['id']);
+            $this->userRepository->deleteUserById($args['id']);
             $this->logger->info('User Deleted', ['status' => '204', 'message' => 'No Content']);
 
             return $response->withStatus(204)->withJson(['status' => '204', 'message' => 'No Content']);
@@ -73,7 +73,7 @@ class UserController
     public function edit(Request $request, Response $response, array $args)
     {
         try {
-            $this->user->editUser($request->getParsedBody());
+            $this->userRepository->editUser($request->getParsedBody());
             $this->logger->info('User Updated', ['status' => '204', 'message' => 'No Content']);
 
             return $response->withStatus(204)->withJson(['status' => '204', 'message' => 'No Content']);
@@ -101,7 +101,7 @@ class UserController
         }
         $this->logger->info('Image saved with name: ' . $filename . ' for the user: ' . $id);
         try {
-            $this->user->addImage(['id' => $id, 'image' => $filename]);
+            $this->userRepository->addImage(['id' => $id, 'image' => $filename]);
             $this->logger->info('Image Updated', ['status' => '204', 'message' => 'No Content']);
 
             return $response->withStatus(204)->withJson(['status' => '204', 'message' => 'No Content']);
