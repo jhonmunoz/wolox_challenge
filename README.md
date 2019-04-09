@@ -10,7 +10,9 @@ composer install
 ```
 
 Se puede utilizar cualquier editor de base de datos.
-Se debe ejecutar el archivo wolox_challenge.sql para poder generar la base y las tablas necesarias para poder utilizar la API
+Se debe ejecutar el archivo wolox_challenge.sql para poder generar la base y las tablas necesarias para poder utilizar la API.
+
+Verificar el archivo **src/settings.php** para poder cambiar las credenciales de acceso a la base de datos si es necesario.
 
 Para poder ejecutar el server 
 ```sh
