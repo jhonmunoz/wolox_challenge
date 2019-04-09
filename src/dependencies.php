@@ -1,5 +1,6 @@
 <?php
 
+
 // DIC configuration
 
 $container = $app->getContainer();
@@ -33,6 +34,11 @@ $container['imageDirectory'] = __DIR__ . '/../public/assets/images/users';
 // UserController
 $container['UserController'] = function () {
     return new UserController();
+};
+
+// Helpers
+$container['helper']= function () {
+    return new App\Helpers\Helper;
 };
 
 // NotFoundHandler (404)

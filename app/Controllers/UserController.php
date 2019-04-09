@@ -15,6 +15,7 @@ class UserController
     private $container;
     private $logger;
     private $storage;
+    private $helper;
 
     public function __construct(Container $container)
     {
@@ -22,6 +23,7 @@ class UserController
         $this->userRepository = new UserRepository($this->container);
         $this->storage = new StorageService;
         $this->logger = $this->container->get('logger');
+        $this->helper = $this->container->get('helper');
     }
 
     public function show(Request $request, Response $response, array $args)
@@ -32,14 +34,14 @@ class UserController
                 'id' => $user->getId(),
                 'name' => $user->getName(),
                 'email' => $user->getEmail(),
-                'image' => $user->getImageUrl(),
+                'image' => $user->getImageUrl($this->helper->getServerHost()),
             ]);
 
             return $response->withStatus(200)->withJson([
                 'id' => $user->getId(),
                 'name' => $user->getName(),
                 'email' => $user->getEmail(),
-                'image' => $user->getImageUrl(),
+                'image' => $user->getImageUrl($this->helper->getServerHost()),
             ]);
         } catch (UserNotFoundException $e) {
             $this->logger->info('UserNotFoundException', ['status' => '404', 'message' => 'Not Found']);

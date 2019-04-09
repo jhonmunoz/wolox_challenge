@@ -8,6 +8,7 @@ class User
     private $name;
     private $email;
     private $image;
+    private $helper;
 
     public function __construct(array $user = [])
     {
@@ -65,14 +66,12 @@ class User
         return $this;
     }
 
-    public function getImageUrl()
+    public function getImageUrl($serverHost)
     {
         if (is_null($this->getImage())) {
             return null;
         }
-        $host = $_SERVER['SERVER_PORT'] === '8080' ? 'http://' : 'https://';
 
-
-        return "{$host}{$_SERVER['HTTP_HOST']}/public/assets/images/users/{$this->getImage()}";
+        return "{$serverHost}/public/assets/images/users/{$this->getImage()}";
     }
 }
