@@ -8,7 +8,6 @@ class User
     private $name;
     private $email;
     private $image;
-    private $helper;
 
     public function __construct(array $user = [])
     {
